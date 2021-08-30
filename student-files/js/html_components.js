@@ -1,46 +1,83 @@
-// --- HTML STUFF ---
-// Create JS/HTML for gallery
-// Create JS/HTML for modal
-// Create JS/HTML for search
-
+const body = document.querySelector('body')
 const gallery = document.querySelector('#gallery')
-const randomUserUrl = "https://randomuser.me/api/?results=12&nat=us"
-const modalContainer = document.querySelector('.modal-container')
-const html = ' '
+let searchContainer = document.querySelector('.search-container')
 
-function generateHtml(data){
-    const {name, picture, email, location: {city, state}} = data
-    let htmlComponent =
-        `<div class="card" data-id=${data.id.value}>
-            <div class="card-img-container">
-            <img class="card-img" src=${data.picture.large} alt="profile picture">    
-            </div>
-            <div class="card-info-container">
-                <h3 id="name" class="card-name cap">${name.first}</h3>
-                <p class="card-text">${data.email}</p>
-                <p class="card-text cap">${data.location.city}, ${data.location.state}</p>
-            </div>
-        </div>`
+//Generate search bar 
+function generateSearch() {
+    const search = 
+    `<form action="#" method="get">
+        <input type="search" id="search-input" class="search-input" placeholder="Search...">
+        <input type="submit" value="&#x1F50D;" id="search-submit" class="search-submit">
+    </form>`
 
-    gallery.insertAdjacentHTML('beforeend', htmlComponent)
+    searchContainer.insertAdjacentHTML('beforeend', search)
 }
 
-function generateModal() {
-    const {name, picture, email, phone, dob, location: {city, state, address}} = data
-    let modalComponent = 
-        `<div class="modal-container">
-            <div class="modal">
-                <button type="button" id="modal-close-btn" class="modal-close-btn"><strong>X</strong></button>
-                <div class="modal-info-container">
-                    <img class="modal-img" src=${data.picture.large} alt="profile picture">
-                    <h3 id="name" class="modal-name cap">${data.name}</h3>
-                    <p class="modal-text">${data.email}</p>
-                    <p class="modal-text cap">${data.location.city}</p>
-                    <hr>
-                    <p class="modal-text">${data.phone}</p>
-                    <p class="modal-text">${data.address}</p>
-                    <p class="modal-text">${data.dob}</p>
-                </div>
+
+//Generates all necessary information for our gallery view of all employees
+function generateCard(response) {
+    //Loop through all the data from the response in scripts.js
+    for (let i=0;i<response.results.length;i++) {
+        //assign each response index to an employee
+        let employee = response.results[i]
+        const card = document.createElement('div')
+        card.className = "card"
+        gallery.appendChild(card)
+
+        //create the HTML for each card and assign employee info via object destructuring
+        const cardInfo =
+        `<div class="card-img-container">
+            <img class="card-img" src="${employee.picture.large}" alt="profile picture">
+        </div>
+        <div class="card-info-container">
+            <h3 id="name" class="card-name cap">${employee.name.first} ${employee.name.last}</h3>
+            <p class="card-text">${employee.email}</p>
+            <p class="card-text cap">${employee.location.city}, ${employee.location.state}</p>
+        </div>`
+
+        //add the cardInfo HTML to the end of our Card div
+        card.insertAdjacentHTML('beforeend', cardInfo)
+
+        //Give each card an event listener to create a Modal if clicked on
+        card.addEventListener('click', () => createModal(employee))
+    }
+}
+
+
+//If a card is clicked on, run this function
+function createModal(employee) {
+    let bday = formatDob(employee.dob.date)
+    let phoneNum = employee.cell.replace('-', ' ')
+
+    //Create the HTML for modal and assign employee information through object destructuring
+    const modalInfo = 
+    `<div class="modal-container">
+        <div class="modal">
+            <button type="button" id="modal-close-btn" class="modal-close-btn"><strong>X</strong></button>
+            <div class="modal-info-container">
+                <img class="modal-img" src="${employee.picture.large}" alt="profile picture">
+                <h3 id="name" class="modal-name cap">${employee.name.first} ${employee.name.last}</h3>
+                <p class="modal-text">${employee.email}</p>
+                <p class="modal-text cap">${employee.location.city}, ${employee.location.state}</p>
+                <hr>
+                <p class="modal-text">${phoneNum}</p>
+                <p class="modal-text">${employee.location.street.number} ${employee.location.street.name} ${employee.location.city}, ${employee.location.state} ${employee.location.postcode}</p>
+                <p class="modal-text">Birthday: ${bday}</p>
+            </div>
+            <div class="modal-btn-container">
+                    <button type="button" id="modal-prev" class="modal-prev btn">Prev</button>
+                    <button type="button" id="modal-next" class="modal-next btn">Next</button>
             </div>
         </div>`
+
+    //Insert the modal HTML after the body
+    document.body.insertAdjacentHTML('beforeend', modalInfo)
+
+    //Define the close button and assign a listener to close the modal if it's clicked
+    let closeBtn = document.querySelector('.modal-close-btn');
+    closeBtn.addEventListener('click', () => closeBtn.parentElement.parentElement.remove());
+    const modalPrev = document.querySelector('#modal-prev')
+    const modalNext = document.querySelector('#modal-next')
+    modalPrev.addEventListener('click', navModal)
+    modalNext.addEventListener('click', navModal)
 }

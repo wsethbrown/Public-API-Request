@@ -31,20 +31,20 @@ function formatDob(dob) {
 
 function navModal(response) {
     console.log("navModal", response)
-    const numberOfEmployees = response.results.length
+    const numOfEmployees = response.results.length
     const modalPrev = document.querySelector("#modal-prev")
     const modalNext = document.querySelector("#modal-next")
     let currentIndex = 0
     modalPrev.addEventListener("click", (event) => {
       if (currentIndex == 0) {
-        currentIndex = numberOfEmployees - 1
+        currentIndex = numOfEmployees - 1
       } else {
         currentIndex--
       }
       createModal(response[currentIndex]);
     })
     modalNext.addEventListener("click", (event) => {
-      if (currentIndex == numberOfEmployees - 1) {
+      if (currentIndex == numOfEmployees - 1) {
         currentIndex = 0
       } else {
         currentIndex++

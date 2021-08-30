@@ -35,7 +35,7 @@ function navModal(response) {
     const modalPrev = document.querySelector("#modal-prev")
     const modalNext = document.querySelector("#modal-next")
     let currentIndex = 0
-    modalPrev.addEventListener("click", (event) => {
+    modalPrev.addEventListener("click", () => {
       if (currentIndex == 0) {
         currentIndex = numOfEmployees - 1
       } else {
@@ -43,7 +43,7 @@ function navModal(response) {
       }
       createModal(response[currentIndex]);
     })
-    modalNext.addEventListener("click", (event) => {
+    modalNext.addEventListener("click", () => {
       if (currentIndex == numOfEmployees - 1) {
         currentIndex = 0
       } else {

@@ -29,28 +29,9 @@ function formatDob(dob) {
     return `${ month }/${ day }/${ year }`;
 }      
 
-function navModal(response) {
-    console.log("navModal", response)
-    const numOfEmployees = response.results.length
-    const modalPrev = document.querySelector("#modal-prev")
-    const modalNext = document.querySelector("#modal-next")
-    let currentIndex = 0
-    modalPrev.addEventListener("click", () => {
-      if (currentIndex == 0) {
-        currentIndex = numOfEmployees - 1
-      } else {
-        currentIndex--
-      }
-      createModal(response[currentIndex]);
-    })
-    modalNext.addEventListener("click", () => {
-      if (currentIndex == numOfEmployees - 1) {
-        currentIndex = 0
-      } else {
-        currentIndex++
-      }
-      createModal(response[currentIndex])
-    })
+function navModal() {
+    document.body.removeChild(document.body.lastElementChild)
+    createModal(currentIndex)    
 }
 
 searchContainer.addEventListener('keyup', () => {

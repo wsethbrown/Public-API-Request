@@ -1,6 +1,7 @@
 const body = document.querySelector('body')
 const gallery = document.querySelector('#gallery')
 let searchContainer = document.querySelector('.search-container')
+let currentIndex = 0
 
 //Generate search bar 
 function generateSearch() {
@@ -78,6 +79,21 @@ function createModal(employee) {
     closeBtn.addEventListener('click', () => closeBtn.parentElement.parentElement.remove());
     const modalPrev = document.querySelector('#modal-prev')
     const modalNext = document.querySelector('#modal-next')
-    modalPrev.addEventListener('click', navModal)
-    modalNext.addEventListener('click', navModal)
+    const modalButtons = document.querySelector('.modal-btn-container')
+    
+    console.log(currentIndex)
+    modalButtons.addEventListener('click', e => {
+        if (e.target == modalPrev && currentIndex < employee.length - 1) {
+            currentIndex++
+            console.log(currentIndex)
+        } else if (e.target == modalNext && currentIndex == employee.length - 1) {
+            currentIndex = 0
+            console.log(currentIndex)
+
+        } else if (e.target == modalPrev && currentIndex == 0) {
+            currentIndex = employee.length -1
+            console.log(currentIndex)
+        }
+        navModal(currentIndex)
+    })
 }

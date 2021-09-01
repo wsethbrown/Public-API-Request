@@ -1,35 +1,20 @@
+url = 'https://randomuser.me/api/?results=12&nat=us'
 
-//get User data from an API
-function fetchUsers(url) {
-    return fetch(url)
-        .then(checkStatus)
-        .then(response => response.json())
-        .catch(error => {
-            gallery.insertAdjacentElement('beforeend', `<h3>You've caused an error! ${error}`)
-        })
-}
-
-function checkStatus(response) {
-    if(response.ok) {
-        return Promise.resolve(response);
-    } else {
-        return Promise.reject(new Error (response.statusText));
-    }
-}
-
-fetchUsers('https://randomuser.me/api/?results=12&nat=us')
+fetch(url)
+    .then(res => res.json())
+    .then(res => res.results)
     .then(generateCard)
+    .then()
+    .catch(err => console.log(err))
 
-function formatDob(dob) {
-    const dobRegex = /\d{4}-\d{2}-\d{2}/gm;
-    dob = dob.match(dobRegex);
-    const year = dob[0].split('-')[0];
-    const month = dob[0].split('-')[1];
-    const day = dob[0].split('-')[2];
-    return `${ month }/${ day }/${ year }`;
-}      
+function formatDob(dateOfBirth) {
+    const year = dateOfBirth.date.slice(0,4);
+    const month = dateOfBirth.date.slice(5,7);
+    const day = dateOfBirth.date.slice(8,10);
+    return `${month}/${day}/${year}`;
+}     
 
-function navModal() {
+function navModal(currentIndex) {
     document.body.removeChild(document.body.lastElementChild)
     createModal(currentIndex)    
 }

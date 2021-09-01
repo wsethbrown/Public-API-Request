@@ -82,7 +82,6 @@ function createModal(index) {
     const closeBtn = document.querySelector('.modal-close-btn')
     closeBtn.addEventListener('click', () => {
         document.body.removeChild(document.body.lastElementChild)
-        
     })
 
     //Grab buttons for next, previous, and the container for all the buttons on a modal
@@ -109,5 +108,5 @@ gallery.addEventListener('click', (e) => {
     const card = e.target.closest('.card')
     const index = card.getAttribute('data-index')
     currentIndex = index
-    navModal(currentIndex)
+    createModal(currentIndex)
 })

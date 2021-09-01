@@ -1,6 +1,6 @@
 const body = document.querySelector('body')
 const gallery = document.querySelector('#gallery')
-let searchContainer = document.querySelector('.search-container')
+const searchContainer = document.querySelector('.search-container')
 let employees = []
 let employeeData
 let currentIndex = 0
@@ -19,7 +19,7 @@ function generateSearch() {
 
 //Generates all necessary information for our gallery view of all employees
 function generateCard(employeeData) {
-    //Loop through all the data from the response in scripts.js
+    //Loop through all the data from the results in scripts.js
     employees = employeeData
     employeeData.forEach((employee, index) => {
         const name = employee.name
@@ -44,8 +44,6 @@ function generateCard(employeeData) {
 
         //add the cardInfo HTML to the end of our Card div
         gallery.insertAdjacentHTML('beforeend', card)
-
-        //Give each card an event listener to create a Modal if clicked on
     })
 }
 
@@ -81,13 +79,13 @@ function createModal(index) {
     document.body.insertAdjacentHTML('beforeend', modalInfo)
 
     //Define the close button and assign a listener to close the modal if it's clicked
-    let closeBtn = document.querySelector('.modal-close-btn')
+    const closeBtn = document.querySelector('.modal-close-btn')
     closeBtn.addEventListener('click', () => {
         document.body.removeChild(document.body.lastElementChild)
-        console.log("got to new page")
+        
     })
 
-
+    //Grab buttons for next, previous, and the container for all the buttons on a modal
     const modalPrev = document.querySelector('#modal-prev')
     const modalNext = document.querySelector('#modal-next')
     const modalButtons = document.querySelector('.modal-btn-container')
@@ -106,6 +104,7 @@ function createModal(index) {
     })
 }
 
+//Get any clicks on a gallery card and build modal
 gallery.addEventListener('click', (e) => {
     const card = e.target.closest('.card')
     const index = card.getAttribute('data-index')

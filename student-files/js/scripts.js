@@ -4,9 +4,11 @@ fetch(url)
     .then(res => res.json())
     .then(res => res.results)
     .then(generateCard)
-    .then()
+    .then(generateSearch)
     .catch(err => console.log(err))
 
+
+//format the date of birth
 function formatDob(dateOfBirth) {
     const year = dateOfBirth.date.slice(0,4);
     const month = dateOfBirth.date.slice(5,7);
@@ -14,11 +16,13 @@ function formatDob(dateOfBirth) {
     return `${month}/${day}/${year}`;
 }     
 
+//function called when clicking Next/Prev button on a modal. Removes the current modal before creating next modal
 function navModal(currentIndex) {
     document.body.removeChild(document.body.lastElementChild)
     createModal(currentIndex)    
 }
 
+//Keyup listener for search container
 searchContainer.addEventListener('keyup', () => {
     const value = document.querySelector('#search-input').value.toLowerCase()
     const card = document.querySelectorAll('.card')
@@ -31,6 +35,7 @@ searchContainer.addEventListener('keyup', () => {
             card[i].style.display = ''
         } else {
             card[i].style.display = 'none'
+            gallery.insertAdjacentHTML('beforeend', "<h1>No employee results found</h1>")
         }
     }
  })

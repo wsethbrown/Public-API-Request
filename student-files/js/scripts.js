@@ -27,10 +27,10 @@ const searchInput = document.getElementById('search-input')
 searchInput.addEventListener('keyup', employeeSearch)
 
 function employeeSearch() {
-    console.log(employees)
     const input = searchInput.value.toLowerCase()
-    const employeeCard = document.querySelector('.card')
-    const employeeName = document.querySelector('.card-name')
+    const employeeCard = document.getElementsByClassName('card')
+    const employeeName = document.getElementsByClassName('card-name')
+    console.log(employeeName)
     let employeesDisplayed = 0
 
     if (found === false) {
@@ -39,7 +39,6 @@ function employeeSearch() {
     }
 
     for (let i=0;i<employees.length;i++) {
-        console.log(employeeName.textContent)
         if (employeeName[i].textContent.toLowerCase().includes(input)) {
             employeeCard[i].style.display = ''
             employeesDisplayed++

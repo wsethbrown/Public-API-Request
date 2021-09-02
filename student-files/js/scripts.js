@@ -1,10 +1,10 @@
 url = 'https://randomuser.me/api/?results=12&nat=us'
+let found = true
 
 fetch(url)
     .then(res => res.json())
     .then(res => res.results)
     .then(generateCard)
-    .then(generateSearch)
     .catch(err => console.log(err))
 
 
@@ -23,20 +23,34 @@ function navModal(currentIndex) {
 }
 
 //Keyup listener for search container
-searchContainer.addEventListener('keyup', () => {
-    const value = document.querySelector('#search-input').value.toLowerCase()
-    const card = document.querySelectorAll('.card')
- 
-    for(let i=0;i<card.length;i++) {
-        let h3 = card[i].querySelector('h3')
-        let name = h3.textContent.toLowerCase()
+const searchInput = document.getElementById('search-input')
+searchInput.addEventListener('keyup', employeeSearch)
 
-        if (name.includes(value)) {
-            card[i].style.display = ''
+function employeeSearch() {
+    console.log(employees)
+    const input = searchInput.value.toLowerCase()
+    const employeeCard = document.querySelector('.card')
+    const employeeName = document.querySelector('.card-name')
+    let employeesDisplayed = 0
+
+    if (found === false) {
+        const noResults = document.getElementById('no-results')
+        noResults.remove()
+    }
+
+    for (let i=0;i<employees.length;i++) {
+        console.log(employeeName.textContent)
+        if (employeeName[i].textContent.toLowerCase().includes(input)) {
+            employeeCard[i].style.display = ''
+            employeesDisplayed++
+            found = true
         } else {
-            card[i].style.display = 'none'
-            gallery.insertAdjacentHTML('beforeend', "<h1>No employee results found</h1>")
+            employeeCard[i].style.display = 'none'
         }
     }
- })
 
+    if (employeesDisplayed == 0) {
+        gallery.insertAdjacentHTML('beforeend', "<h1 id='no-results'>No employees found</h1>")
+        found = false
+    }
+}
